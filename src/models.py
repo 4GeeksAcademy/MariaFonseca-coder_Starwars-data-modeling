@@ -7,6 +7,12 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
+class Usuario(Base):
+    __tablename__ = 'usuario'
+    id = Column(Integer, primary_key=True)
+    email = Column(String(50), nullable=False)
+    name = Column(String(20), nullable=False)
+
 class Person(Base):
     __tablename__ = 'person'
     # Here we define columns for the table person
