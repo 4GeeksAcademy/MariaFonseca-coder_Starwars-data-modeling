@@ -1,6 +1,6 @@
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
 from eralchemy2 import render_er
@@ -10,8 +10,11 @@ Base = declarative_base()
 class Usuario(Base):
     __tablename__ = 'usuario'
     id = Column(Integer, primary_key=True)
-    email = Column(String(50), nullable=False)
+    email = Column(String(50), nullable=False, unique=True)
+    password = Column(String(20), nullable=False)
+    subscriptionDate = Column(DateTime)
     name = Column(String(20), nullable=False)
+    lastName = Column(String(20), nullable=False)
 
 class Person(Base):
     __tablename__ = 'person'
