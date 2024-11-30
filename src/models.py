@@ -1,38 +1,53 @@
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Float
 from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
 from eralchemy2 import render_er
 
 Base = declarative_base()
 
-class Usuario(Base):
-    __tablename__ = 'usuario'
+class User(Base):
+    __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
     email = Column(String(50), nullable=False, unique=True)
     password = Column(String(20), nullable=False)
-    subscriptionDate = Column(DateTime)
+    subscription_date = Column(DateTime)
     name = Column(String(20), nullable=False)
-    lastName = Column(String(20), nullable=False)
+    last_name = Column(String(20), nullable=False)
 
-class Person(Base):
-    __tablename__ = 'person'
-    # Here we define columns for the table person
-    # Notice that each column is also a normal Python instance attribute.
+class Character(Base):
+    __tablename__ = 'character'
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    name = Column(String(20), nullable=False)
+    gender = Column(String(20))
+    hair_color = Column(String(20))
 
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
+class Planet(Base):
+    __tablename__ = 'planet'
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+    name = Column(String(20), nullable=False)
+    population = Column(Integer)
+    climate = Column(String(20))
+
+class Vehicle(Base):
+    __tablename__ = 'vehicle'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(25), nullable=False)
+    cargo_capacity = Column(Integer)
+    length = Column(Float)
+
+class Favoritos(Base):
+    __tablename__ = 'favoritos'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    user = relationship(User)
+    character_id = Column(Integer, ForeignKey('character.id'))
+    character = relationship(Character)
+    planet_id = Column(Integer, ForeignKey('planet.id'))
+    planet = relationship(Planet)
+    vehicle_id = Column(Integer, ForeignKey('vehicle.id'))
+    vehicle = relationship(Vehicle)
 
     def to_dict(self):
         return {}
